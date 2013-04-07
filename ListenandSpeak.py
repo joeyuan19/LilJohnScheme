@@ -30,10 +30,8 @@ def listen(stream, MAX_y):
   #	Lower kHz Limit = 15000 Hz -> Y[429]
   fOi = Y[429:]
   if fOi.argmax() == 58 and fOi[58]>=1.00:
-  	t = time.clock()
-	hears.append(t)
-	print "Amp:\t", fOi[58]
-  	print "\tTime:\t",str(t)
+  	print "Amp:\t", fOi[58]
+  	print "\tTIME:\t",time.clock()
 	return 1
   else:
 	return 0
@@ -42,8 +40,7 @@ def listen(stream, MAX_y):
 def speak(freq,dur):
 	print "Freq:\t",freq
 	time.sleep(1.0)
-	t = time.clock()
-	print "\tTime:\t",str(t)
+	print "\tTIME:\t",time.clock()
 	winsound.Beep(freq,dur)
 	return 0
 
@@ -55,7 +52,7 @@ def main():
   # Frequency range
   print "You chose to: "
   
-  pa 	     = 0 	# Pass counter
+  p 	     = 0 	# Pass counter
   passes     = 10	# Listen/Hear 10  times then quit
   phase      = 0		# Run speaker or listener
   listen_dur = 245
@@ -64,13 +61,10 @@ def main():
   else: 
     phase = 1
   
-  #Store Data
-  emits = []
-  hears = []
-  
-  while(pa<passes):
+  while(p<passes):
     if phase == 0:
       print "SPEAK"
+      time.sleep(5)
       Durr = 2000 	# Set Duration To 1000 ms == 1 second
       Freak = 20000			#Freq in Hz
       speaker = speak(Freak,Durr)
@@ -96,11 +90,7 @@ def main():
       stream.close()
       p.terminate()
       phase = 0
-    pa=pa+1
-  #Write DATA to text file
-  DataOut = np.column_stack((emits, hears))
-  np.savetxt(fileName, DataOut, fmt=('%.6f', '%.6f'))
 
-	
+	  
 if __name__ == '__main__':
   main()
